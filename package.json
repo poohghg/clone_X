@@ -9,7 +9,8 @@
     "lint": "next lint",
     "eslint:fix": "eslint --cache .",
     "format": "prettier --cache --write .",
-    "install": "husky install"
+    "install": "husky install",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@stylexjs/stylex": "^0.5.1",
@@ -25,7 +26,7 @@
     "eslint": "^8",
     "eslint-config-next": "14.1.0",
     "eslint-config-prettier": "^8.6.0",
-    "husky": "^9.0.10",
+    "husky": "^8.0.0",
     "lint-staged": "^15.2.1",
     "prettier": "^3.2.5",
     "typescript": "^5"
@@ -36,8 +37,8 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "eslint --cache",
-      "prettier --cache --write"
+      "eslint --fix",
+      "prettier --write"
     ]
   }
 }
