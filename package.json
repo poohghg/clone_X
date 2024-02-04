@@ -6,19 +6,38 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "eslint:fix": "eslint --cache .",
+    "format": "prettier --cache --write .",
+    "install": "husky install"
   },
   "dependencies": {
+    "@stylexjs/stylex": "^0.5.1",
+    "next": "14.1.0",
     "react": "^18",
-    "react-dom": "^18",
-    "next": "14.1.0"
+    "react-dom": "^18"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@stylexjs/nextjs-plugin": "^0.5.1",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
-    "eslint-config-next": "14.1.0"
+    "eslint-config-next": "14.1.0",
+    "eslint-config-prettier": "^8.6.0",
+    "husky": "^9.0.10",
+    "lint-staged": "^15.2.1",
+    "prettier": "^3.2.5",
+    "typescript": "^5"
+  },
+  "volta": {
+    "node": "20.10.0",
+    "pnpm": "8.15.1"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --cache",
+      "prettier --cache --write"
+    ]
   }
 }
