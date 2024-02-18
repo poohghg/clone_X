@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
-
-// import './reset.css'
 import React from 'react'
+import GlobalState from '@/app/_provider/GlobalState'
+import './reset.css'
+import './global.css'
+import { DarkMode } from '@/app/_provider/darkmode'
 
 export const metadata: Metadata = {
 	title: 'Create Next App',
@@ -14,8 +16,13 @@ export default function RootLayout({
 	children: React.ReactNode
 }>) {
 	return (
-		<html lang="en">
-			<body>{children}</body>
+		<html lang="en" suppressHydrationWarning>
+			<head>
+				<DarkMode />
+			</head>
+			<body>
+				<GlobalState>{children}</GlobalState>
+			</body>
 		</html>
 	)
 }

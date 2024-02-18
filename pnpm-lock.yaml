@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@stylexjs/babel-plugin':
+    specifier: ^0.5.1
+    version: 0.5.1
   '@stylexjs/stylex':
     specifier: ^0.5.1
     version: 0.5.1
@@ -497,7 +500,6 @@ packages:
       '@stylexjs/stylex': 0.5.1
     transitivePeerDependencies:
       - supports-color
-    dev: true
 
   /@stylexjs/nextjs-plugin@0.5.1(next@14.1.0):
     resolution: {integrity: sha512-94fV3OmI5ZZUCiyJiPh8/03uujQBowzNtNTanGI0bPYI1TXueBCRXrsKjv9YwDedItVu66UWA1ynydC8IYot/g==}
@@ -518,7 +520,6 @@ packages:
     resolution: {integrity: sha512-3kuvLfPr1P5lbLjvtEjXmJxyBOygudhH93DA8OtNnb0H3bQjDZJQqaR/Pde67tlsdbqU5pFuaeueKkZhnuurzA==}
     dependencies:
       postcss-value-parser: 4.2.0
-    dev: true
 
   /@stylexjs/stylex@0.5.1:
     resolution: {integrity: sha512-KO55dRB1+LhUo9OxfHqH5FwO2F0HdTe4g6fyRJb7JT5FiWEA/vYJ9MY7W8NdMSprW/7FeQKnSg6u5WlHU2ji2g==}
@@ -2421,7 +2422,6 @@ packages:
 
   /postcss-value-parser@4.2.0:
     resolution: {integrity: sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==}
-    dev: true
 
   /postcss@8.4.31:
     resolution: {integrity: sha512-PS08Iboia9mts/2ygV3eLpY5ghnUcfLV/EXTOW1E2qYxJKGGBUtNjN76FYHnMs36RmARn41bC0AZmn+rR0OVpQ==}
