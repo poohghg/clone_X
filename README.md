@@ -33,3 +33,10 @@ feature-sliced-design 적용
     - 클린 코드
     - 코드 품질
     - https://jiwondev.tistory.com/160
+
+### 코드 관리
+
+- git flow 사용
+- 커밋 메시지 규칙
+    - https://doublesprogramming.tistory.com/256
+- pr? mr ? 사용
