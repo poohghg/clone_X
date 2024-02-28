@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 
-import {IErrorMsg, THttpMethod, THttpResponse, TParams,} from '@/shared/API/type'
+import { IErrorMsg, THttpMethod, THttpResponse, TParams } from '@/shared/API/type'
 
 export default class Fetch {
 	private url: string
@@ -12,7 +12,7 @@ export default class Fetch {
 	private params: TParams = {}
 
 	private init: RequestInit = {
-		cache: 'no-cache',
+		cache: 'no-store',
 		headers: {
 			'Content-Type': 'application/json',
 		},
@@ -31,7 +31,7 @@ export default class Fetch {
 		THttpResponse<S, F>
 	> {
 		this.setRequestConfig()
-
+		console.log(this.init)
 		try {
 			const res = await fetch(this.url, this.init)
 			const { code } = await res.clone().json()
@@ -131,7 +131,6 @@ export default class Fetch {
 	private setUrlPrefix() {
 		let prefix: string | undefined
 		// else prefix = IS_NODE ? API_URL : ''
-
 		if (prefix) this.url = prefix + this.url
 	}
 

@@ -17,10 +17,8 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en" suppressHydrationWarning>
-			<head>
-				<DarkMode />
-			</head>
 			<body>
+				<DarkMode />
 				<GlobalState>{children}</GlobalState>
 			</body>
 		</html>
