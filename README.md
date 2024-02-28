@@ -7,7 +7,7 @@ feature-sliced-design 적용
 - 모델 계층 정의
     - 모델 계층은 도메인별로 나누어서 관리
 - 재사용 가능한 기능은 shared 폴더에 정의
-    - 재상요이 가능한 UI kit 생성
+    - 재사용이 가능한 UI kit 생성
     - 커스텀 훅,커스텀 컴포넌트,커스텀 테스트 유틸리티 등
 - 참고 https://emewjin.github.io/feature-sliced-design/
 
