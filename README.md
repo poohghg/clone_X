@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+### 폴더 구조 아키텍처
 
-## Getting Started
+feature-sliced-design 적용
 
-First, run the development server:
+- 기능별로 폴더를 나누어서 관리
+    - 각 기능 쿼리,훅,타입,테스트,스타일 등을 포함
+- 모델 계층 정의
+    - 모델 계층은 도메인별로 나누어서 관리
+- 재사용 가능한 기능은 shared 폴더에 정의
+    - 재상요이 가능한 UI kit 생성
+    - 커스텀 훅,커스텀 컴포넌트,커스텀 테스트 유틸리티 등
+- 참고 https://emewjin.github.io/feature-sliced-design/
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### 사용 기술 스택
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- next 14 app router
+    - 적극적인 캐시 레이어 사용
+    - 서버,클라이언트의 적절한 사용
+    - 프로젝트 특성상 정적,동적 라우팅 사용
+    - 간단한 mutation 작업의 경우 server action 사용
+- react 18.canary
+    - 현재 정식 버전이 아닌 실험적인 기능을 사용하기 위해
+    - https://react.dev/reference/react-dom/hooks 레퍼런스참조
+    - ex) useFormState.useFormStatus,use 등등
+- typescript ^5.2
+- style-x 사용 예정
+    - 컴파일 에러시 scss 모듈 사용?
+    - ??
+- react-query 5.0 버전
+- 클라이언트 상태 관리 라이브러리 : recoil | zustand
+- TDD? 적용 고민
+- Sonar Lint 적용 고민
+    - 클린 코드
+    - 코드 품질
+    - https://jiwondev.tistory.com/160
