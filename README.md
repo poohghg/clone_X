@@ -28,7 +28,7 @@ feature-sliced-design 적용
     - ??
 - react-query 5.0 버전
 - 클라이언트 상태 관리 라이브러리 : zustand
-- Sonar Lint 적용 고민
+- Sonar Lint 적용 고민 (확정 x)
     - 클린 코드
     - 코드 품질
     - https://jiwondev.tistory.com/160
