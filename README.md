@@ -27,8 +27,7 @@ feature-sliced-design 적용
     - 컴파일 에러시 scss 모듈 사용?
     - ??
 - react-query 5.0 버전
-- 클라이언트 상태 관리 라이브러리 : recoil | zustand
-- TDD? 적용 고민
+- 클라이언트 상태 관리 라이브러리 : zustand
 - Sonar Lint 적용 고민
     - 클린 코드
     - 코드 품질
