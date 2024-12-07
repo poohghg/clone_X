@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "NODE_ENV=local pnpm run copy-env && next dev",
+    "build": "NODE_ENV=prod pnpm run copy-env && next build",
     "start": "next start",
     "lint": "next lint",
+    "lint:fix": "eslint \"**/*.{js,jsx,ts,tsx}\" --fix",
     "eslint:fix": "eslint --cache .",
     "format": "prettier --cache --write .",
     "install": "husky install",
@@ -15,12 +16,19 @@
   "dependencies": {
     "@stylexjs/babel-plugin": "^0.5.1",
     "@stylexjs/stylex": "^0.5.1",
-    "next": "14.1.0",
+    "@tanstack/react-query": "^5",
+    "classnames": "^2.3.2",
+    "lodash": "^4.17.21",
+    "next": "^14.2.3",
+    "pino": "^9.3.2",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "recoil": "^0.7.7"
   },
   "devDependencies": {
     "@stylexjs/nextjs-plugin": "^0.5.1",
+    "@tanstack/react-query-devtools": "^5",
+    "@types/lodash": "^4.17.7",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
@@ -30,6 +38,7 @@
     "husky": "^8.0.0",
     "lint-staged": "^15.2.1",
     "prettier": "^3.2.5",
+    "sass": "^1.69.5",
     "typescript": "^5"
   },
   "volta": {
@@ -38,6 +47,7 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
+      "bash -c tsc --noEmit --module esnext --target esnext",
       "eslint --fix",
       "prettier --write"
     ]

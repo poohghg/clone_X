@@ -1,0 +1,33 @@
+.harmful-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .harmful-text {
+    text-align: left;
+    word-break: break-all;
+    overflow-wrap: break-word;
+
+    b {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 358px) {
+      br {
+        display: none;
+      }
+    }
+  }
+}
+
+.recom-genre-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+
+  p:last-child {
+    font-weight: bold;
+    text-decoration: underline;
+  }
+}

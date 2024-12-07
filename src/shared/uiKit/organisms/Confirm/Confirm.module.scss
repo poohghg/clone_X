@@ -1,0 +1,73 @@
+$buttonHeight: 55px;
+
+.wrap {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-index);
+
+  .box {
+    z-index: calc(var(--z-index) + 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    width: 320px;
+    max-height: 600px;
+    height: auto;
+
+    background-color: var(--elevated-02);
+    border-radius: 10px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+
+    .content {
+      height: calc(100% - #{$buttonHeight});
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 0;
+      flex-grow: 1;
+
+      color: var(--mono-01);
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+    }
+
+    .button-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 1;
+
+      border-top: 1px solid var(--bright-01);
+
+      .button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 16px;
+        line-height: 20px;
+        font-weight: 400;
+        color: var(--mono-01);
+        height: $buttonHeight;
+        flex-grow: 1;
+
+        &:nth-child(2) {
+          color: var(--blue-01);
+          border-left: 1px solid var(--bright-01);
+        }
+      }
+    }
+  }
+}
