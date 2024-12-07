@@ -1,28 +1,42 @@
-// import { THttpStatusCodeKey } from '@/shared/type/httpStatusCode';
+import { HTTP_STATUS_CODE } from '@/shared/lib/api/constant/httpStatusCode'
+import { HEADER, HEADER_CONTENT } from '@/shared/lib/api/constant/header'
 
-export type THttpMethod = 'GET' | 'POST' | 'PUT'
+export type HttpResponse<S, F> = IHttpSResponse<S> | IHttpFResponse<F>
 
-export type TParams = Record<string, any>
+export type HeaderContentKey = keyof typeof HEADER_CONTENT
+
+export interface IHost {
+	host?: {
+		[HEADER.USER_AGENT]?: string
+		[HEADER.X_REAL_IP]?: string
+		Cookie?: string
+	}
+}
+
+export type HttpStatusCode = keyof typeof HTTP_STATUS_CODE
+
+export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
+
+export type Params = Record<string, any>
 
 export interface IErrorMsg {
-	code: string
+	code: HttpStatusCode
 	message: string
 }
 
 interface IBaseHttpResponse {
-	code: string
+	code: HttpStatusCode
 	httpStatus: number
-	res: Response
+	ok: boolean
+	body: unknown
 }
 
 export interface IHttpSResponse<S> extends IBaseHttpResponse {
-	isSucceed: true
+	ok: true
 	body: S
 }
 
 export interface IHttpFResponse<F> extends IBaseHttpResponse {
-	isSucceed: false
+	ok: false
 	body: F
 }
-
-export type THttpResponse<S, F> = IHttpSResponse<S> | IHttpFResponse<F>

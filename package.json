@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "NODE_ENV=local pnpm run copy-env && next dev",
+    "dev": "NODE_ENV=local DOT_ENV=local pnpm run copy-env && next dev",
     "build": "NODE_ENV=prod pnpm run copy-env && next build",
     "start": "next start",
     "lint": "next lint",
@@ -11,7 +11,8 @@
     "eslint:fix": "eslint --cache .",
     "format": "prettier --cache --write .",
     "install": "husky install",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "copy-env": "cp .config/env/.env.${DOT_ENV} .env"
   },
   "dependencies": {
     "@stylexjs/babel-plugin": "^0.5.1",

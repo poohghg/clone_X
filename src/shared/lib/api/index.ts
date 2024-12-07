@@ -1,132 +1,167 @@
 /* eslint-disable no-undef */
 
-import { IErrorMsg, THttpMethod, THttpResponse, TParams } from '@/shared/lib/api/model/type'
+import { HeaderContentKey, HttpMethod, HttpResponse, IErrorMsg, Params } from '@/shared/lib/api/model/type'
+import { HEADER_CONTENT } from '@/shared/lib/api/constant/header'
+import { API_URL, IS_NODE, MOCK_API_URL } from '@/shared/constant/globalConstants' // 공통 유틸 함수
 
-export default class Fetch {
-	private url: string
+// 공통 유틸 함수
+const buildUrlWithParams = (url: string, params: Params): string => {
+	const queryString = new URLSearchParams(params).toString()
+	return queryString ? `${url}?${queryString}` : url
+}
 
-	private readonly isMock: boolean = false
+const buildBody = (
+	params: Params,
+	contentType: HeaderContentKey,
+): BodyInit | null => {
+	switch (contentType) {
+		case 'form': {
+			const formData = new FormData()
+			Object.keys(params).forEach((key) => formData.append(key, params[key]))
+			return formData
+		}
+		case 'xForm': {
+			const xForm = new URLSearchParams()
+			Object.keys(params).forEach((key) => xForm.append(key, params[key]))
+			return xForm.toString()
+		}
+		case 'json':
+		default:
+			return JSON.stringify(params)
+	}
+}
 
-	private method: THttpMethod = 'GET'
+// Fetch 클래스
+class Fetch {
+	private readonly url: string
+	private readonly init: RequestInit
 
-	private params: TParams = {}
+	constructor(url: string, init: RequestInit) {
+		this.url = url
+		this.init = init
+	}
 
-	private init: RequestInit = {
+	public async request<S, F = IErrorMsg>(): Promise<HttpResponse<S, F>> {
+		try {
+			const res = await fetch(this.url, this.init)
+			const body = await res.clone().json()
+
+			if (res.ok)
+				return {
+					code: '200',
+					httpStatus: res.status,
+					body: body as S,
+					ok: true,
+				}
+
+			return {
+				code: body.code,
+				httpStatus: res.status,
+				body: body as F,
+				ok: false,
+			}
+		} catch (err) {
+			return {
+				code: '501',
+				httpStatus: 501,
+				body: err as F,
+				ok: false,
+			}
+		}
+	}
+}
+
+export default class FetchBuilder {
+	private readonly _url: string
+
+	private _useMock: boolean = false
+
+	private _method: HttpMethod = 'GET'
+
+	private _params: Params = {}
+
+	private _init: RequestInit = {
 		cache: 'no-store',
 		headers: {
 			'Content-Type': 'application/json',
 		},
 	}
 
-	constructor(url: string, nextTag?: string | string[]) {
-		this.url = url
+	private _contentType: HeaderContentKey = 'json'
 
-		if (nextTag)
-			this.init.next = {
-				tags: typeof nextTag === 'string' ? [nextTag] : nextTag,
-			}
+	constructor(url: string) {
+		this._url = url
 	}
 
-	public async request<S extends {}, F = IErrorMsg>(): Promise<
-		THttpResponse<S, F>
-	> {
-		this.setRequestConfig()
-		try {
-			const res = await fetch(this.url, this.init)
-			const { code } = await res.clone().json()
-			const body = await res.clone().json()
-
-			if (!res.ok) {
-				return {
-					code,
-					httpStatus: res.status,
-					res,
-					body: body as F,
-					isSucceed: res.ok,
-				}
-			}
-
-			return {
-				code: '200',
-				httpStatus: res.status,
-				res,
-				body: body as S,
-				isSucceed: res.ok,
-			}
-		} catch (err) {
-			/**
-			 * TODO 에러 던지면 에러 페이지로 이동,
-			 * TODO 에러 코드에 맞춰 명시적 리턴이 필요한지 확인 필요
-			 */
-			return {
-				code: '500',
-				httpStatus: 500,
-				res: new Response(),
-				body: err as F,
-				isSucceed: false,
-			}
-		}
-	}
-
-	public addParams<T extends TParams>(params: T) {
-		this.params = {
-			...this.params,
-			...params,
-		}
+	public params(params: Params) {
+		this._params = params
 		return this
 	}
 
-	public httpMethod(method: THttpMethod) {
-		this.method = method
-		this.init.method = method
+	public httpMethod(method: HttpMethod) {
+		this._method = method
 		return this
 	}
 
-	public addConfig(config: RequestInit) {
-		this.init = {
-			...this.init,
+	public initConfig(config: RequestInit) {
+		this._init = {
+			...this._init,
 			...config,
 		}
 		return this
 	}
 
-	public addNextConfig(nextConfig: NextFetchRequestConfig) {
-		this.init.next = {
-			...this.init.next,
+	public nextConfig(nextConfig: NextFetchRequestConfig) {
+		this._init.next = {
+			...this._init.next,
 			...nextConfig,
 		}
 		return this
 	}
 
-	public addCache(cacheConfig: RequestCache) {
-		this.init.cache = cacheConfig
+	public headers(headers: Record<string, string>) {
+		this._init.headers = { ...this._init.headers, ...headers }
 		return this
 	}
 
-	private setRequestConfig() {
-		this.setUrlPrefix()
-		this.setParams()
-		this.init.method = this.method
-	}
-
-	private setParams() {
-		if (this.method === 'GET') {
-			const query = Object.keys(this.params)
-				.map(
-					(key) =>
-						`${encodeURIComponent(key)}=${encodeURIComponent(this.params[key])}`,
-				)
-				.join('&')
-			if (query) this.url += `?${query}`
-			return
+	public headersContent(key: HeaderContentKey) {
+		this._init.headers = {
+			...this._init.headers,
+			'Content-Type': HEADER_CONTENT[key],
 		}
-
-		this.init.body = JSON.stringify(this.params)
+		this._contentType = key
+		return this
 	}
 
-	private setUrlPrefix() {
-		let prefix: string | undefined
-		// else prefix = IS_NODE ? API_URL : ''
-		if (prefix) this.url = prefix + this.url
+	public useMock(isMock: boolean) {
+		this._useMock = isMock
+		return this
+	}
+
+	public nextTags(tags: string | string[]) {
+		this._init.next = {
+			tags: typeof tags === 'string' ? [tags] : tags,
+		}
+		return this
+	}
+
+	public build() {
+		const domain = IS_NODE ? (this._useMock ? MOCK_API_URL : API_URL) : ''
+
+		const fullUrl =
+			this._method === 'GET'
+				? buildUrlWithParams(`${domain}${this._url}`, this._params)
+				: `${domain}${this._url}`
+
+		const body =
+			this._method !== 'GET'
+				? buildBody(this._params, this._contentType)
+				: undefined
+
+		return new Fetch(fullUrl, {
+			...this._init,
+			method: this._method,
+			body,
+		}).request()
 	}
 }
