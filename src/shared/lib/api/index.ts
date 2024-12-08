@@ -1,10 +1,16 @@
 /* eslint-disable no-undef */
 
-import { HeaderContentKey, HttpMethod, HttpResponse, IErrorMsg, Params } from '@/shared/lib/api/model/type'
+import { HeaderContentKey, HttpErrorCode, HttpMethod, Params } from '@/shared/lib/api/model/type'
 import { HEADER_CONTENT } from '@/shared/lib/api/constant/header'
-import { API_URL, IS_NODE, MOCK_API_URL } from '@/shared/constant/globalConstants' // 공통 유틸 함수
+import { API_URL, IS_NODE, MOCK_API_URL, USE_MOCK } from '@/shared/constant/globalConstants'
+import FetchResponse, { FetchErrorResponse, FetchSuccessResponse } from '@/shared/lib/api/model/Response' // 공통 유틸 함수
 
 // 공통 유틸 함수
+const getDomain = (isMock: boolean) => {
+	if (IS_NODE) return isMock && USE_MOCK ? MOCK_API_URL : API_URL
+	return ''
+}
+
 const buildUrlWithParams = (url: string, params: Params): string => {
 	const queryString = new URLSearchParams(params).toString()
 	return queryString ? `${url}?${queryString}` : url
@@ -41,32 +47,24 @@ class Fetch {
 		this.init = init
 	}
 
-	public async request<S, F = IErrorMsg>(): Promise<HttpResponse<S, F>> {
+	public async request<S, F = unknown>(): Promise<
+		FetchSuccessResponse<S> | FetchErrorResponse<F>
+	> {
 		try {
 			const res = await fetch(this.url, this.init)
 			const body = await res.clone().json()
 
-			if (res.ok)
-				return {
-					code: '200',
-					httpStatus: res.status,
-					body: body as S,
-					ok: true,
-				}
+			if (res.ok) {
+				return FetchResponse.success<S>(body as S, res.status)
+			}
 
-			return {
-				code: body.code,
-				httpStatus: res.status,
-				body: body as F,
-				ok: false,
-			}
+			return FetchResponse.error<F>(
+				body.code as HttpErrorCode,
+				body as F,
+				res.status,
+			)
 		} catch (err) {
-			return {
-				code: '501',
-				httpStatus: 501,
-				body: err as F,
-				ok: false,
-			}
+			return FetchResponse.error<F>('501', err as F, 501)
 		}
 	}
 }
@@ -146,7 +144,7 @@ export default class FetchBuilder {
 	}
 
 	public build() {
-		const domain = IS_NODE ? (this._useMock ? MOCK_API_URL : API_URL) : ''
+		const domain = getDomain(this._useMock)
 
 		const fullUrl =
 			this._method === 'GET'
@@ -154,14 +152,14 @@ export default class FetchBuilder {
 				: `${domain}${this._url}`
 
 		const body =
-			this._method !== 'GET'
-				? buildBody(this._params, this._contentType)
-				: undefined
+			this._method === 'GET'
+				? undefined
+				: buildBody(this._params, this._contentType)
 
 		return new Fetch(fullUrl, {
 			...this._init,
 			method: this._method,
 			body,
-		}).request()
+		})
 	}
 }
