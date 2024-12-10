@@ -23,9 +23,6 @@ feature-sliced-design 적용
     - https://react.dev/reference/react-dom/hooks 레퍼런스참조
     - ex) useFormState.useFormStatus,use 등등
 - typescript ^5.2
-- style-x 사용 예정
-    - 컴파일 에러시 scss 모듈 사용?
-    - ??
 - react-query 5.0 버전
 - 클라이언트 상태 관리 라이브러리 : zustand
 - Sonar Lint 적용 고민 (확정 x)

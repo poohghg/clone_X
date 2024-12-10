@@ -1,5 +1,5 @@
 export const HTTP_SUCCESS_CODE = {
-	'200': '200', // 성공 - 프론트에서 의도적 명시
+	'200': '200',
 } as const
 
 export const HTTP_ERROR_CODE = {
@@ -8,13 +8,10 @@ export const HTTP_ERROR_CODE = {
 	'402': '402',
 	'403': '403',
 	'501': '501',
+	'900': '900',
 } as const
 
 export const HTTP_STATUS_CODE = {
 	...HTTP_SUCCESS_CODE,
 	...HTTP_ERROR_CODE,
 } as const
-
-export const ERROR_CODE = {
-	// 9000001: 9000001,
-}
