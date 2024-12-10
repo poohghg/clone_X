@@ -1,6 +1,9 @@
 import React, { ElementType, forwardRef, ReactNode } from 'react'
-import { TPolymorphic, TPolymorphicWithRef } from '@/shared/type/component'
-import { PolymorphicRef } from '@/shared/uiKit/atom/BaseComponent/Test'
+import {
+	TPolymorphic,
+	TPolymorphicRef,
+	TPolymorphicWithRef,
+} from '@/shared/type/component'
 
 interface Props<T extends ElementType> {
 	as: T
@@ -15,7 +18,7 @@ type BaseComponent = <T extends ElementType>(
 const Base: BaseComponent = forwardRef(
 	<T extends ElementType>(
 		{ as, children, rest }: TPolymorphic<T, Props<T>>,
-		ref: PolymorphicRef<T>,
+		ref: TPolymorphicRef<T>,
 	) => {
 		const Component = as
 
