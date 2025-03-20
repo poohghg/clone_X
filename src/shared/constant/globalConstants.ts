@@ -12,10 +12,3 @@ export const IS_NODE = typeof window === 'undefined'
 export const IS_CLIENT = !IS_NODE
 export const IS_MOCKING = USE_MOCK === 'true'
 export const IS_LOCAL = USE_MOCK === 'true'
-
-export const DOMAIN_PREFIX = (() => {
-	if (MODE === 'live') return ''
-	if (MODE === 'dev') return 'dev-'
-	if (MODE === 'stage') return 'stage-'
-	return ''
-})()

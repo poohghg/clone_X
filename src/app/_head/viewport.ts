@@ -1,8 +1,8 @@
 import type { Viewport } from 'next';
-import { cookies } from 'next/headers';
+import { cookies, type UnsafeUnwrappedCookies } from 'next/headers';
 
 export function getTheme() {
-  const theme = cookies().get('theme')?.value;
+  const theme = (cookies() as unknown as UnsafeUnwrappedCookies).get('theme')?.value;
   if (!theme) return undefined;
   return theme === 'dark' ? '#1c1c1c' : '#ffffff';
 }

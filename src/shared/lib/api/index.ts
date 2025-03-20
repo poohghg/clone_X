@@ -2,42 +2,9 @@
 
 import { HeaderContentKey, HttpErrorCode, HttpMethod, Params } from '@/shared/lib/api/model/type'
 import { HEADER_CONTENT } from '@/shared/lib/api/constant/header'
-import { API_URL, IS_NODE, MOCK_API_URL, USE_MOCK } from '@/shared/constant/globalConstants'
-import FetchResponse, { FetchErrorResponse, FetchSuccessResponse } from '@/shared/lib/api/model/Response' // 공통 유틸 함수
+import FetchResponse, { FetchErrorResponse, FetchSuccessResponse } from '@/shared/lib/api/model/Response'
+import { API_URL, IS_NODE, MOCK_API_URL, USE_MOCK } from '@/shared/constant/globalConstants' // 공통 유틸 함수
 
-// 공통 유틸 함수
-const getDomain = (isMock: boolean) => {
-	if (IS_NODE) return isMock && USE_MOCK ? MOCK_API_URL : API_URL
-	return ''
-}
-
-const buildUrlWithParams = (url: string, params: Params): string => {
-	const queryString = new URLSearchParams(params).toString()
-	return queryString ? `${url}?${queryString}` : url
-}
-
-const buildBody = (
-	params: Params,
-	contentType: HeaderContentKey,
-): BodyInit | null => {
-	switch (contentType) {
-		case 'form': {
-			const formData = new FormData()
-			Object.keys(params).forEach((key) => formData.append(key, params[key]))
-			return formData
-		}
-		case 'xForm': {
-			const xForm = new URLSearchParams()
-			Object.keys(params).forEach((key) => xForm.append(key, params[key]))
-			return xForm.toString()
-		}
-		case 'json':
-		default:
-			return JSON.stringify(params)
-	}
-}
-
-// Fetch 클래스
 class Fetch {
 	private readonly url: string
 	private readonly init: RequestInit
@@ -144,22 +111,52 @@ export default class FetchBuilder {
 	}
 
 	public build() {
-		const domain = getDomain(this._useMock)
-
-		const fullUrl =
-			this._method === 'GET'
-				? buildUrlWithParams(`${domain}${this._url}`, this._params)
-				: `${domain}${this._url}`
-
-		const body =
-			this._method === 'GET'
-				? undefined
-				: buildBody(this._params, this._contentType)
+		const fullUrl = this.buildUrl()
+		const body = this._method === 'GET' ? null : this.buildBody()
 
 		return new Fetch(fullUrl, {
 			...this._init,
 			method: this._method,
 			body,
 		})
+	}
+
+	private buildUrl(): string {
+		const domain = this.getDomain()
+		const url = `${domain}${this._url}`
+
+		return this._method === 'GET' ? this.buildUrlWithParams(url) : `${url}`
+	}
+
+	private buildUrlWithParams(url: string): string {
+		const queryString = new URLSearchParams(this._params).toString()
+		return `${url}?${queryString}`
+	}
+
+	private buildBody(): BodyInit | null {
+		switch (this._contentType) {
+			case 'form': {
+				const formData = new FormData()
+				Object.keys(this._params).forEach((key) =>
+					formData.append(key, this._params[key]),
+				)
+				return formData
+			}
+			case 'xForm': {
+				const xForm = new URLSearchParams()
+				Object.keys(this._params).forEach((key) =>
+					xForm.append(key, this._params[key]),
+				)
+				return xForm.toString()
+			}
+			case 'json':
+			default:
+				return JSON.stringify(this._params)
+		}
+	}
+
+	private getDomain() {
+		if (IS_NODE) return this._useMock && USE_MOCK ? MOCK_API_URL : API_URL
+		return ''
 	}
 }

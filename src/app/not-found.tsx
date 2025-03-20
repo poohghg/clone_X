@@ -10,9 +10,6 @@ export default function NotFound() {
 				<br />
 				요청하신 페이지를 찾을 수 없습니다.
 			</p>
-			{/*<CustomLink href={'/'} className={st['btn-home']}>*/}
-			{/*  HOME*/}
-			{/*</CustomLink>*/}
 		</div>
 	)
 }

@@ -1,40 +1,40 @@
-import { headers } from 'next/headers';
+import { headers, type UnsafeUnwrappedHeaders } from 'next/headers';
 import { HEADER } from '@/src/shared/API/constant/header';
 import { APP_ID, APP_ID_IN_AGENT } from '@/src/shared/constant/channel';
 import { TAppChannel } from '@/src/shared/model/type/channel';
 
 export default class HeaderForServer {
   static getUserAgent() {
-    return headers().get(HEADER.USER_AGENT) ?? '';
+    return (headers() as unknown as UnsafeUnwrappedHeaders).get(HEADER.USER_AGENT) ?? '';
   }
 
   static getRealIp() {
-    return headers().get(HEADER.X_REAL_IP.toLowerCase()) ?? '';
+    return (headers() as unknown as UnsafeUnwrappedHeaders).get(HEADER.X_REAL_IP.toLowerCase()) ?? '';
   }
 
   static isHasOutLink() {
-    const params = headers().get('x-params');
+    const params = (headers() as unknown as UnsafeUnwrappedHeaders).get('x-params');
     if (!params) return false;
     const searchParams = new URLSearchParams(params);
     return searchParams.get('outlink') === 'ok';
   }
 
   static getSearchParams() {
-    const params = headers().get('x-params');
+    const params = (headers() as unknown as UnsafeUnwrappedHeaders).get('x-params');
     return new URLSearchParams(params ?? {});
   }
 
   static getRealUrl() {
-    return headers().get('x-realUrl') ?? '';
+    return (headers() as unknown as UnsafeUnwrappedHeaders).get('x-realUrl') ?? '';
   }
 
   // 앱에서 웹뷰 페이지호출시 해당 헤더값을 전달 해준다.
   static getMBAppID() {
-    return headers().get(HEADER.MRBLUE_APP_ID) ?? headers().get('Mrblue-App-ID');
+    return (headers() as unknown as UnsafeUnwrappedHeaders).get(HEADER.MRBLUE_APP_ID) ?? (headers() as unknown as UnsafeUnwrappedHeaders).get('Mrblue-App-ID');
   }
 
   static getReferer() {
-    return headers().get('referer') ?? '';
+    return (headers() as unknown as UnsafeUnwrappedHeaders).get('referer') ?? '';
   }
 
   static getMbAppIdFromHeader() {

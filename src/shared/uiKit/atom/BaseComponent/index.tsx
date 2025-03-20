@@ -30,4 +30,13 @@ const Base: BaseComponent = forwardRef(
 	},
 )
 
+const Test = () => {
+	const ref = React.useRef<HTMLButtonElement>(null)
+	return (
+		<Base as={'button'} ref={ref}>
+			Test
+		</Base>
+	)
+}
+
 export default Base

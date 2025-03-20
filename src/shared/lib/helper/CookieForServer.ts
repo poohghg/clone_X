@@ -1,5 +1,5 @@
 import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies';
-import { cookies } from 'next/headers';
+import { cookies, type UnsafeUnwrappedCookies } from 'next/headers';
 
 export function cookieValueToObj(value: string) {
   return value.split('&').reduce<Record<string, string>>((acc, cur) => {
@@ -16,7 +16,7 @@ export function makeCookieValue(obj: Record<string, string>) {
 }
 
 export function getCookieValue(key: string) {
-  const cookieStore = cookies();
+  const cookieStore = (cookies() as unknown as UnsafeUnwrappedCookies);
   const value = cookieStore.get(key)?.value;
 
   if (!value) return null;
@@ -34,7 +34,7 @@ export function makeCookie(cookieStore: ReadonlyRequestCookies, keys: string[]) 
 }
 
 export function getMyMemberInfoCookie() {
-  const cookieStore = cookies();
+  const cookieStore = (cookies() as unknown as UnsafeUnwrappedCookies);
 
   const myMemberInfoCookie = cookieStore.get('MyMemberInfo') ?? '';
   if (myMemberInfoCookie) return makeCookie(cookieStore, ['MyMemberInfo', 'loginType']);
@@ -42,6 +42,6 @@ export function getMyMemberInfoCookie() {
 }
 
 export function getCookie(key: string) {
-  const cookieStore = cookies();
+  const cookieStore = (cookies() as unknown as UnsafeUnwrappedCookies);
   return cookieStore.get(key) ?? null;
 }
