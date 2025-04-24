@@ -1,9 +1,9 @@
 /* eslint-disable no-undef */
 
-import { HeaderContentKey, HttpErrorCode, HttpMethod, Params } from '@/shared/lib/api/model/type'
-import { HEADER_CONTENT } from '@/shared/lib/api/constant/header'
-import FetchResponse, { FetchErrorResponse, FetchSuccessResponse } from '@/shared/lib/api/model/Response'
-import { API_URL, IS_NODE, MOCK_API_URL, USE_MOCK } from '@/shared/constant/globalConstants' // 공통 유틸 함수
+import { HeaderContentKey, HttpMethod, Params } from '@/shared/libs/api/model/type'
+import { HEADER_CONTENT } from '@/shared/libs/api/constant/header'
+import { API_URL, IS_NODE, MOCK_API_URL, USE_MOCK } from '@/shared/constant/globalConstants'
+import { FetchErrorResponse, FetchFactory, FetchSuccessResponse } from '@/shared/libs/api/model/Response' // 공통 유틸 함수
 
 class Fetch {
 	private readonly url: string
@@ -20,18 +20,24 @@ class Fetch {
 		try {
 			const res = await fetch(this.url, this.init)
 			const body = await res.clone().json()
+			const code = body.code
 
 			if (res.ok) {
-				return FetchResponse.success<S>(body as S, res.status)
+				return FetchFactory.success<S>(body, res.status, code)
 			}
 
-			return FetchResponse.error<F>(
-				body.code as HttpErrorCode,
-				body as F,
-				res.status,
-			)
+			// 실패 응답 처리
+			return FetchFactory.error<F>(body, res.status, code)
 		} catch (err) {
-			return FetchResponse.error<F>('501', err as F, 501)
+			// 서버 오류나 네트워크 오류 등은 500 코드로 처리하고, err 메시지를 body로 전달
+			return FetchFactory.error<F>(
+				{
+					code: '500',
+					message: err instanceof Error ? err.message : 'Unknown error',
+				} as F,
+				500,
+				'500',
+			)
 		}
 	}
 }

@@ -1,21 +1,27 @@
-import FetchBuilder from '@/shared/lib/api'
+import FetchBuilder from '@/shared/libs/api'
 
-interface ITestRes {
+export interface TestParams {
+	test: string
+}
+
+export interface TestDto {
 	test: string
 	a: 'a'
 	b: number
 }
 
-export const test = async () => {
+export const fetchTest = async (params: TestParams) => {
 	const url = ''
 	const res = await new FetchBuilder(url)
-		.params({
-			test: 'test',
-		})
+		.params(params)
 		.build()
-		.request<ITestRes>()
-	//
+		.request<TestDto>()
+
 	// if (res.ok) {
-	// 	return res.data.
+	// 	res.
 	// }
+	//
+	// if (res.)
+
+	return res
 }

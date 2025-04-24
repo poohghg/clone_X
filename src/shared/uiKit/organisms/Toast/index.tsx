@@ -7,7 +7,7 @@ import classNames from 'classnames/bind'
 import st from './Toast.module.scss'
 import { IToast } from '@/shared/uiKit/organisms/Toast/model/model'
 import useToast from '@/shared/uiKit/organisms/Toast/lib/useToast'
-import useActiveVirtualKeyboard from '@/shared/lib/hooks/useActiveVirtualKeyboard'
+import useActiveVirtualKeyboard from '@/shared/libs/hooks/useActiveVirtualKeyboard'
 import { ConditionalWrapper } from '@/shared/uiKit/atom/ConditionalWrapper'
 import Portal from '@/shared/uiKit/atom/Portal'
 
