@@ -3,6 +3,7 @@ import {
 	ComponentPropsWithRef,
 	ElementType,
 } from 'react'
+import { FlattenObject } from '@/shared/type/util'
 
 export type TPolymorphicRef<T extends ElementType> =
 	ComponentPropsWithRef<T>['ref']
@@ -26,3 +27,8 @@ export type TPolymorphicWithRef<
 		as: T
 	},
 > = TRemoveDuplicatedEle<T, Props> & { ref?: TPolymorphicRef<T> }
+
+export type MergeElementProps<
+	T extends ElementType,
+	Props extends object = {},
+> = FlattenObject<Props & Omit<ComponentPropsWithoutRef<T>, keyof Props>>

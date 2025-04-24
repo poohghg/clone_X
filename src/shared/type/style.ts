@@ -1,6 +1,6 @@
 import { CSSProperties } from 'react'
 
-export interface IStyle {
+export interface Styles {
 	style?: CSSProperties
 	className?: string
 }

@@ -1,9 +1,9 @@
 import { ReactNode } from 'react'
 
-type Case = Record<PropertyKey, ReactNode>
+type Case = Record<PropertyKey, ReactNode> & Record<'default', ReactNode>
 
 interface SwitchCaseProps<T extends Case> {
-	value: keyof T | 'default'
+	value: keyof T
 	caseByValue: T
 }
 
@@ -21,7 +21,7 @@ const Test = () => {
 			caseByValue={{
 				a: <div>case a</div>,
 				b: <div>case b</div>,
-				// default: <div>default case</div>,
+				default: <div>default case</div>,
 			}}
 		/>
 	)
