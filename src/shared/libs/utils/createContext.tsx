@@ -22,8 +22,6 @@ const createContext = <ContextType,>({
 }: ContextOptions) => {
 	const Context = ReactCreateContext<ContextType | undefined>(undefined)
 
-	Context.displayName = name
-
 	const useContext = () => {
 		const context = ReactUseContext(Context)
 
@@ -38,6 +36,7 @@ const createContext = <ContextType,>({
 		return context
 	}
 
+	Context.displayName = name
 	return [Context.Provider, useContext, Context] as ReturnContext<ContextType>
 }
 

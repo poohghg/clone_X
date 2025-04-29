@@ -1,26 +1,23 @@
 import React, { ElementType, forwardRef, ReactNode } from 'react'
 import {
-	TPolymorphic,
-	TPolymorphicRef,
-	TPolymorphicWithRef,
+	MergeElementProps,
+	PolymorphicRef,
+	PolymorphicWithRef,
 } from '@/shared/type/component'
 
-interface Props<T extends ElementType> {
-	as: T
-	children?: ReactNode
-}
+interface Props<T extends ElementType> {}
 
 type BaseComponent = <T extends ElementType>(
-	props: TPolymorphicWithRef<T, Props<T>>,
+	props: PolymorphicWithRef<T, Props<T>>,
 ) => ReactNode
 
 // eslint-disable-next-line react/display-name
 const Base: BaseComponent = forwardRef(
-	<T extends ElementType>(
-		{ as, children, rest }: TPolymorphic<T, Props<T>>,
-		ref: TPolymorphicRef<T>,
+	<T extends ElementType = 'div'>(
+		{ as, children, rest }: MergeElementProps<T, Props<T>>,
+		ref: PolymorphicRef<T>,
 	) => {
-		const Component = as
+		const Component = as || 'div'
 
 		return (
 			<Component ref={ref} {...rest}>
