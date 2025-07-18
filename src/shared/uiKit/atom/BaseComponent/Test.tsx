@@ -12,8 +12,6 @@ type AsProp<C extends ElementType> = {
 	as?: C
 }
 
-// type KeyWithAs<C extends ElementType, Props> = keyof (AsProp<C> & Props)
-
 export type PolymorphicRef<C extends ElementType> =
 	ComponentPropsWithRef<C>['ref']
 
@@ -54,14 +52,16 @@ const Button: ButtonType = forwardRef(
 const Test = () => {
 	const ref = useRef<HTMLButtonElement>(null)
 	return (
-		<Button
-			as={'button'}
-			ref={ref}
-			onClick={() => {
-				console.log('click')
-			}}
-		>
-			Test
-		</Button>
+		<>
+			<Button
+				as={'button'}
+				ref={ref}
+				onClick={() => {
+					console.log('click')
+				}}
+			>
+				Test
+			</Button>
+		</>
 	)
 }

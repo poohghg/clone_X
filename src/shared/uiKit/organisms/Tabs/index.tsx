@@ -10,7 +10,7 @@ import TabPanel from '@/shared/uiKit/organisms/Tabs/ui/TabPanel'
 interface TabsProps<T> {
 	controlledKey?: string // controlled
 	defaultKey?: string // uncontrolled
-	onChange?: (key: string) => void
+	onChange?: (key: T) => void
 }
 
 export const Tabs = forwardRef<
@@ -45,3 +45,22 @@ export default Object.assign(Tabs, {
 	Trigger: TabsTrigger,
 	Panel: TabPanel,
 })
+
+const Test = () => {
+	return (
+		<Tabs defaultKey="/1" onChange={(key) => console.log(key)}>
+			<Tabs.Trigger tabKey="/1" title="Photos">
+				<div>111</div>
+			</Tabs.Trigger>
+			<Tabs.Trigger tabKey="/2" title="Music">
+				<div>222</div>
+			</Tabs.Trigger>
+			<Tabs.Trigger tabKey="/3" title="Videos">
+				<div>333</div>
+			</Tabs.Trigger>
+			<Tabs.Trigger tabKey="/4" title="Documents">
+				<div>444</div>
+			</Tabs.Trigger>
+		</Tabs>
+	)
+}
