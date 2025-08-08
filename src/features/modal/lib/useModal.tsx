@@ -19,12 +19,12 @@ const useModal = (modalId: TModalState) => {
 	const openModal = useCallback(() => {
 		setModal((current) => ({ ...current, [modalId]: true }))
 		document.body.style.overflow = 'hidden'
-	}, [modalId])
+	}, [modalId, setModal])
 
 	const closeModal = useCallback(() => {
 		setModal((current) => ({ ...current, [modalId]: false }))
 		document.body.style.overflow = ''
-	}, [modalId])
+	}, [modalId, setModal])
 
 	return { isOpen, openModal, closeModal }
 }

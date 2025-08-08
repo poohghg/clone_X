@@ -1,7 +1,7 @@
 import styles from '../DropDown.module.scss'
 import classNames from 'classnames/bind'
 import { ReactNode } from 'react'
-import { MergeElementProps } from '../../../shared/type/css'
+import { MergeElementProps } from '@/shared/type/component'
 
 const cn = classNames.bind(styles)
 

@@ -4,7 +4,7 @@ import { Tabs } from '@/shared/uiKit/organisms/Tabs'
 
 const Test = () => {
 	return (
-		<Tabs defaultKey="/1" onChange={(key) => console.log(key)}>
+		<Tabs defaultKey="/1" onChange={(key) => {}}>
 			{/*<Tab tabKey="/1" title="Photos">*/}
 			{/*	<div>111</div>*/}
 			{/*</Tab>*/}

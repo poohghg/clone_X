@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
+// ESLint disable for IntersectionObserverInit type from DOM API
+/* eslint-disable no-undef */
 const useInView = (
 	options?: IntersectionObserverInit,
 	callback?: () => void,
@@ -21,7 +23,7 @@ const useInView = (
 		observer.observe(ref.current)
 
 		return () => observer.disconnect()
-	}, [ref])
+	}, [callback, options])
 
 	return { ref, inView }
 }

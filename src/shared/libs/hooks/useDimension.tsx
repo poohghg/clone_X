@@ -35,7 +35,7 @@ const useDimension = () => {
 		return () => {
 			window.removeEventListener('resize', updateDimension)
 		}
-	}, [])
+	}, [setDimension])
 
 	return {
 		...dimension,

@@ -1,31 +1,24 @@
-import React, { ElementType, forwardRef, ReactNode } from 'react'
-import {
-	MergeElementProps,
-	PolymorphicRef,
-	PolymorphicWithRef,
-} from '@/shared/type/component'
+import React, { ElementType, forwardRef } from 'react'
+import { MergeElementProps } from '@/shared/type/component'
 
-interface Props<T extends ElementType> {}
+interface Props<T extends ElementType> {
+	as?: T
+}
 
-type BaseComponent = <T extends ElementType>(
-	props: PolymorphicWithRef<T, Props<T>>,
-) => ReactNode
+const Base = forwardRef<
+	HTMLElement,
+	MergeElementProps<ElementType, Props<ElementType>>
+>(({ as = 'div', children, ...rest }, ref) => {
+	const Component = as
 
-// eslint-disable-next-line react/display-name
-const Base: BaseComponent = forwardRef(
-	<T extends ElementType = 'div'>(
-		{ as, children, rest }: MergeElementProps<T, Props<T>>,
-		ref: PolymorphicRef<T>,
-	) => {
-		const Component = as || 'div'
+	return (
+		<Component ref={ref} {...rest}>
+			{children}
+		</Component>
+	)
+})
 
-		return (
-			<Component ref={ref} {...rest}>
-				{children}
-			</Component>
-		)
-	},
-)
+Base.displayName = 'Base'
 
 const Test = () => {
 	const ref = React.useRef<HTMLButtonElement>(null)

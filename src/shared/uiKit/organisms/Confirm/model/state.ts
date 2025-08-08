@@ -6,4 +6,6 @@ export const confirmState = atom<IShowConfirm | undefined>({
 	default: undefined,
 })
 
-export default {}
+const ConfirmState = {};
+
+export default ConfirmState;

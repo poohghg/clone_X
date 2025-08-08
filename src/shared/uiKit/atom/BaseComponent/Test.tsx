@@ -57,7 +57,7 @@ const Test = () => {
 				as={'button'}
 				ref={ref}
 				onClick={() => {
-					console.log('click')
+					// Handle button click
 				}}
 			>
 				Test

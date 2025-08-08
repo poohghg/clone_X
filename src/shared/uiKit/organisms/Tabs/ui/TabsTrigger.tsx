@@ -12,7 +12,7 @@ const TabsTrigger = forwardRef<
 >((props, ref) => {
 	const { selectedKey, setSelectedKey } = useTabsContext()
 
-	const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
+	const handleClick = (_e: MouseEvent<HTMLButtonElement>) => {
 		setSelectedKey(props.tabKey)
 	}
 

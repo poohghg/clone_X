@@ -43,7 +43,7 @@ function ToastItem({
 		return () => {
 			clearInterval(ref)
 		}
-	}, [])
+	}, [duration])
 
 	return (
 		<div
