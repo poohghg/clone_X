@@ -7,4 +7,6 @@ export const HARMFUL_MEDIA_LEVEL_TOAST = {
   [HARMFUL_MEDIA_LEVEL.IOS_APP]: 'iosApp',
 } as const;
 
-export default {};
+const ToastConstants = {};
+
+export default ToastConstants;

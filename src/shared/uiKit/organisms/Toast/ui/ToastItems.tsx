@@ -17,7 +17,7 @@ const cn = classNames.bind(st);
 
 interface Props {
   children: ReactNode;
-  clickHandler?: (e?: MouseEvent<HTMLButtonElement>) => void;
+  clickHandler?: (_e?: MouseEvent<HTMLButtonElement>) => void;
 }
 
 const Base = ({ children, clickHandler }: Props) => {

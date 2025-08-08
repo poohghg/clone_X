@@ -14,7 +14,7 @@ const useResetPrevInfiniteQuery = (queryKey: QueryKey) => {
 			}))
 			setPrevKey(queryKey)
 		}
-	}, [queryKey])
+	}, [queryKey, prevKey, queryClient])
 }
 
 export default useResetPrevInfiniteQuery

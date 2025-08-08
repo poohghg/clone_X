@@ -6,6 +6,8 @@ export const toastState = atom<IToast[]>({
   default: [],
 });
 
-export default {};
+const ToastState = {};
+
+export default ToastState;
 
 // Harmflmedia

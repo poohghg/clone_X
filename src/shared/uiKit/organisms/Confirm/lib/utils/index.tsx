@@ -23,4 +23,6 @@ export function getAppContentConfirm(): IShowConfirm {
   };
 }
 
-export default {};
+const ConfirmUtils = {};
+
+export default ConfirmUtils;

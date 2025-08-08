@@ -67,7 +67,7 @@ export default function useToast() {
 
 			return newValue.id
 		},
-		[],
+		[setToast],
 	)
 
 	const clearToast = useCallback((ids: string | string[]) => {
@@ -77,11 +77,11 @@ export default function useToast() {
 
 		if (Array.isArray(ids)) ids.forEach(deleteToast)
 		else deleteToast(ids)
-	}, [])
+	}, [setToast])
 
 	const allClearToast = useCallback(() => {
 		setToast([])
-	}, [])
+	}, [setToast])
 
 	return { toast, isShowToast, showToast, clearToast, allClearToast }
 }
